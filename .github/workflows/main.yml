@@ -39,38 +39,41 @@ jobs:
       - name: Create dist directory
         shell: bash
         run: mkdir dist
-      - name: Create UEFIExtract build directory
-        run: cmake -E make_directory ${{runner.workspace}}/build/UEFIExtract
-      - name: Configure UEFIExtract
+
+      - name: Create UEFIPatch build directory
+        run: cmake -E make_directory ${{runner.workspace}}/build/UEFIPatch
+      - name: Configure UEFIPatch
         shell: bash
-        working-directory: ${{runner.workspace}}/build/UEFIExtract
-        run: cmake -G "Visual Studio 17 2022" -A Win32 -T "v141_xp" -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded" ../../UEFITool/UEFIExtract/
-      - name: Build UEFIExtract
-        working-directory: ${{runner.workspace}}/build/UEFIExtract
+        working-directory: ${{runner.workspace}}/build/UEFIPatch
+        run: cmake -G "Visual Studio 17 2022" -A Win32 -T "v141_xp" -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded" ../../UEFITool/UEFIPatch/
+      - name: Build UEFIPatch
+        working-directory: ${{runner.workspace}}/build/UEFIPatch
         shell: bash
         run: cmake --build . --config Release
-      - name: Archive UEFIExtract
-        working-directory: ${{runner.workspace}}/build/UEFIExtract/Release
+      - name: Archive UEFIPatch
+        working-directory: ${{runner.workspace}}/build/UEFIPatch/Release
         shell: bash
         run: |
-          UEFITOOL_VER=$(cat ../../../UEFITool/version.h | grep PROGRAM_VERSION | cut -d'"' -f2 | sed 's/NE alpha /A/') ; \
-          7z a ../../../UEFITool/dist/UEFIExtract_NE_${UEFITOOL_VER}_win32.zip UEFIExtract.exe
-      - name: Create UEFIFind build directory
-        run: cmake -E make_directory ${{runner.workspace}}/build/UEFIFind
-      - name: Configure UEFIFind
-        working-directory: ${{runner.workspace}}/build/UEFIFind
+          UEFITOOL_VER=$(cat ../../../UEFITool/version.h | grep PROGRAM_VERSION | cut -d'"' -f2 ) ; \
+          7z a ../../../UEFITool/dist/UEFIPatch_${UEFITOOL_VER}_win32.zip UEFIPatch.exe
+          
+      - name: Create UEFIReplace build directory
+        run: cmake -E make_directory ${{runner.workspace}}/build/UEFIReplace
+      - name: Configure UEFIReplace
+        working-directory: ${{runner.workspace}}/build/UEFIReplace
         shell: bash
-        run: cmake -G "Visual Studio 17 2022" -A Win32 -T "v141_xp" -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded" ../../UEFITool/UEFIFind/
-      - name: Build UEFIFind
-        working-directory: ${{runner.workspace}}/build/UEFIFind
+        run: cmake -G "Visual Studio 17 2022" -A Win32 -T "v141_xp" -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded" ../../UEFITool/UEFIReplace/
+      - name: Build UEFIReplace
+        working-directory: ${{runner.workspace}}/build/UEFIReplace
         shell: bash
         run: cmake --build . --config Release
       - name: Archive UEFIFind
-        working-directory: ${{runner.workspace}}/build/UEFIFind/Release
+        working-directory: ${{runner.workspace}}/build/UEFIReplace/Release
         shell: bash
         run: |
-          UEFITOOL_VER=$(cat ../../../UEFITool/version.h | grep PROGRAM_VERSION | cut -d'"' -f2 | sed 's/NE alpha /A/') ; \
-          7z a ../../../UEFITool/dist/UEFIFind_NE_${UEFITOOL_VER}_win32.zip UEFIFind.exe
+          UEFITOOL_VER=$(cat ../../../UEFITool/version.h | grep PROGRAM_VERSION | cut -d'"' -f2) ; \
+          7z a ../../../UEFITool/dist/UEFIReplace_${UEFITOOL_VER}_win32.zip UEFIReplace.exe
+
       - name: Create UEFITool build directory
         run: cmake -E make_directory ${{runner.workspace}}/build/UEFITool
       - name: Configure UEFITool
@@ -87,8 +90,8 @@ jobs:
         working-directory: ${{runner.workspace}}/build/UEFITool/release
         shell: bash
         run: |
-          UEFITOOL_VER=$(cat ../../../UEFITool/version.h | grep PROGRAM_VERSION | cut -d'"' -f2 | sed 's/NE alpha /A/') ; \
-          7z a ../../../UEFITool/dist/UEFITool_NE_${UEFITOOL_VER}_win32.zip UEFITool.exe
+          UEFITOOL_VER=$(cat ../../../UEFITool/version.h | grep PROGRAM_VERSION | cut -d'"' -f2) ; \
+          7z a ../../../UEFITool/dist/UEFITool_${UEFITOOL_VER}_win32.zip UEFITool.exe
       - name: Upload to artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -134,10 +137,10 @@ jobs:
         working-directory: ${{runner.workspace}}/build
         shell: bash
         run: |
-          UEFITOOL_VER=$(cat ../UEFITool/version.h | grep PROGRAM_VERSION | cut -d'"' -f2 | sed 's/NE alpha /A/') ; \
-          7z a ../UEFITool/dist/UEFIExtract_NE_${UEFITOOL_VER}_win64.zip ./UEFIExtract/Release/UEFIExtract.exe
-          7z a ../UEFITool/dist/UEFIFind_NE_${UEFITOOL_VER}_win64.zip ./UEFIFind/Release/UEFIFind.exe
-          7z a ../UEFITool/dist/UEFITool_NE_${UEFITOOL_VER}_win64.zip ./UEFITool/Release/UEFITool.exe
+          UEFITOOL_VER=$(cat ../UEFITool/version.h | grep PROGRAM_VERSION | cut -d'"' -f2) ; \
+          7z a ../UEFITool/dist/UEFIPatch_${UEFITOOL_VER}_win64.zip ./UEFIExtract/Release/UEFIPatch.exe
+          7z a ../UEFITool/dist/UEFIReplace_${UEFITOOL_VER}_win64.zip ./UEFIFind/Release/UEFIReplace.exe
+          7z a ../UEFITool/dist/UEFITool_${UEFITOOL_VER}_win64.zip ./UEFITool/Release/UEFITool.exe
       - name: Upload to artifacts
         uses: actions/upload-artifact@v4
         with:
