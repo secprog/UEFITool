@@ -14,10 +14,11 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 #ifndef __BASETYPES_H__
 #define __BASETYPES_H__
 
+#include <QChar>
+#include <QString>
 #include <stdarg.h>
 #include <stddef.h>
 #include <stdint.h>
-
 
 typedef uint8_t BOOLEAN;
 typedef int8_t INT8;
