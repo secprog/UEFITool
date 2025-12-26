@@ -50,8 +50,8 @@ jobs:
         working-directory: ${{runner.workspace}}/build/UEFIPatch
         shell: cmd
         run: |
-            call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
-            msbuild -t:Rebuild -p:PlatformToolset=v141_xp;Configuration=Release
+          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86 -vcvars_ver=14.16
+          msbuild -t:Rebuild -p:PlatformToolset=v141_xp;Configuration=Release
       - name: Archive UEFIPatch
         working-directory: ${{runner.workspace}}/build/UEFIPatch/Release
         shell: bash
@@ -69,7 +69,7 @@ jobs:
         working-directory: ${{runner.workspace}}/build/UEFIReplace
         shell: cmd
         run: |
-            call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
+            call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86 -vcvars_ver=14.16
             msbuild -t:Rebuild -p:PlatformToolset=v141_xp;Configuration=Release
       - name: Archive UEFIReplace
         working-directory: ${{runner.workspace}}/build/UEFIReplace/Release
@@ -88,7 +88,7 @@ jobs:
         working-directory: ${{runner.workspace}}/build/UEFITool
         shell: cmd
         run: |
-            call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
+            call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86 -vcvars_ver=14.16
             msbuild -t:Rebuild -p:PlatformToolset=v141_xp;Configuration=Release
       - name: Archive UEFITool
         working-directory: ${{runner.workspace}}/build/UEFITool/release
