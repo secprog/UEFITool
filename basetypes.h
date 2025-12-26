@@ -14,8 +14,10 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 #ifndef __BASETYPES_H__
 #define __BASETYPES_H__
 
+#ifdef __cplusplus
 #include <QChar>
 #include <QString>
+#endif
 #include <stdarg.h>
 #include <stddef.h>
 #include <stdint.h>
