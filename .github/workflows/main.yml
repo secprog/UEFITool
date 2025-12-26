@@ -126,7 +126,7 @@ jobs:
       - name: Configure everything
         working-directory: ${{runner.workspace}}/build
         shell: cmd
-        run: cmake -DCMAKE_PREFIX_PATH="D:\a\UEFITool\qt-6.5.0-static-x64-msvc2022" -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded" -A x64 ../UEFITool
+        run: cmake -DCMAKE_PREFIX_PATH="D:\a\UEFITool\qt-6.5.0-static-x64-msvc2022" -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded" -A x64 ../
       - name: Build everything
         working-directory: ${{runner.workspace}}/build
         shell: bash
