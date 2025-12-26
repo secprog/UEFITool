@@ -45,11 +45,13 @@ jobs:
       - name: Configure UEFIPatch
         shell: bash
         working-directory: ${{runner.workspace}}/build/UEFIPatch
-        run: cmake -G "Visual Studio 17 2022" -A Win32 -T "v141_xp" -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded" ../../UEFITool/UEFIPatch/
+        run: ../../qt-5.6.3-static-x86-msvc2017/bin/qmake.exe ../../UEFITool/UEFIPatch/
       - name: Build UEFIPatch
         working-directory: ${{runner.workspace}}/build/UEFIPatch
-        shell: bash
-        run: cmake --build . --config Release
+        shell: cmd
+        run: |
+            call "C:\Program Files (x86)\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
+            msbuild -t:Rebuild -p:PlatformToolset=v141_xp;Configuration=Release
       - name: Archive UEFIPatch
         working-directory: ${{runner.workspace}}/build/UEFIPatch/Release
         shell: bash
@@ -62,12 +64,14 @@ jobs:
       - name: Configure UEFIReplace
         working-directory: ${{runner.workspace}}/build/UEFIReplace
         shell: bash
-        run: cmake -G "Visual Studio 17 2022" -A Win32 -T "v141_xp" -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded" ../../UEFITool/UEFIReplace/
+        run: ../../qt-5.6.3-static-x86-msvc2017/bin/qmake.exe ../../UEFITool/UEFIReplace/
       - name: Build UEFIReplace
         working-directory: ${{runner.workspace}}/build/UEFIReplace
-        shell: bash
-        run: cmake --build . --config Release
-      - name: Archive UEFIFind
+        shell: cmd
+        run: |
+            call "C:\Program Files (x86)\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
+            msbuild -t:Rebuild -p:PlatformToolset=v141_xp;Configuration=Release
+      - name: Archive UEFIReplace
         working-directory: ${{runner.workspace}}/build/UEFIReplace/Release
         shell: bash
         run: |
@@ -79,7 +83,7 @@ jobs:
       - name: Configure UEFITool
         shell: bash
         working-directory: ${{runner.workspace}}/build/UEFITool
-        run: ../../qt-5.6.3-static-x86-msvc2017/bin/qmake.exe -tp vc ../../UEFITool/UEFITool/
+        run: ../../qt-5.6.3-static-x86-msvc2017/bin/qmake.exe -tp vc ../../UEFITool/
       - name: Build UEFITool
         working-directory: ${{runner.workspace}}/build/UEFITool
         shell: cmd
@@ -126,7 +130,7 @@ jobs:
       - name: Configure everything
         working-directory: ${{runner.workspace}}/build
         shell: cmd
-        run: cmake -DCMAKE_PREFIX_PATH="D:\a\UEFITool\qt-6.5.0-static-x64-msvc2022" -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded" -A x64 ../
+        run: cmake -DCMAKE_PREFIX_PATH="D:\a\UEFITool\qt-6.5.0-static-x64-msvc2022" -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded" -A x64 ../../
       - name: Build everything
         working-directory: ${{runner.workspace}}/build
         shell: bash
